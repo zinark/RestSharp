@@ -235,7 +235,7 @@ namespace RestSharp.Deserializers
 			var name = t.Name;
 			if (!elements.Any())
 			{
-				var lowerName = name.ToLower().AsNamespaced(Namespace);
+				var lowerName = name.ToLower(Culture).AsNamespaced(Namespace);
 				elements = root.Descendants(lowerName);
 			}
 
@@ -298,7 +298,7 @@ namespace RestSharp.Deserializers
 
 		private XElement GetElementByName(XElement root, XName name)
 		{
-			var lowerName = name.LocalName.ToLower().AsNamespaced(name.NamespaceName);
+            var lowerName = name.LocalName.ToLower(Culture).AsNamespaced(name.NamespaceName);
 			var camelName = name.LocalName.ToCamelCase(Culture).AsNamespaced(name.NamespaceName);
 
 			if (root.Element(name) != null)
@@ -327,7 +327,7 @@ namespace RestSharp.Deserializers
 							  .FirstOrDefault(d => d.Name.LocalName.RemoveUnderscoresAndDashes() == name.LocalName) 
 							  ?? root.Descendants()
 							  .OrderBy(d => d.Ancestors().Count())
-							  .FirstOrDefault(d => d.Name.LocalName.RemoveUnderscoresAndDashes() == name.LocalName.ToLower());
+                              .FirstOrDefault(d => d.Name.LocalName.RemoveUnderscoresAndDashes() == name.LocalName.ToLower(Culture));
 
 			if (element != null)
 			{
@@ -339,7 +339,7 @@ namespace RestSharp.Deserializers
 
 		private XAttribute GetAttributeByName(XElement root, XName name)
 		{
-			var lowerName = name.LocalName.ToLower().AsNamespaced(name.NamespaceName);
+            var lowerName = name.LocalName.ToLower(Culture).AsNamespaced(name.NamespaceName);
 			var camelName = name.LocalName.ToCamelCase(Culture).AsNamespaced(name.NamespaceName);
 
 			if (root.Attribute(name) != null)
